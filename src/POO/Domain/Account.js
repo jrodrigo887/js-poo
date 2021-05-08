@@ -1,63 +1,64 @@
 import Client from './Client.js';
 
 export default class Account {
-    _saldo = 0;
-    _cliente = null;
+    static count = 0;
 
-    constructor( agencia, cliente ) {
+    constructor( agencia, client ) {
         this._agencia = agencia;
-        this.cliente = cliente;
+        this._client = client;
+        this._balance = 0;
+        Account.count += 1;
     }
 
-    set cliente( cliente ) {
-        if ( cliente instanceof Client ) {
-            this._cliente = cliente;
+    set client( client ) {
+        if ( client instanceof Client ) {
+            this._client = client;
         }
     }
 
-    get cliente() {
-        return this._cliente;
+    get client() {
+        return this._client;
     }
 
-    set saldo( value ) {
-        this._saldo = value;
+    set balance( value ) {
+        this._balance = value;
     }
 
-    get saldo() {
-        return this._saldo;
+    get balance() {
+        return this._balance;
     }
 
     /**
-     * Depositar um valor para somar com_saldo atual.
+     * Depositar um valor para somar com_balance atual.
      * @param { Number } valor 
      * @returns { Boolean } true ou false 
      */
-    depositar( valor ) {
+    deposit( valor ) {
         if ( valor > 0 ) {
-            this.saldo += valor;
+            this.balance += valor;
             return true;
         }
         return false;
     }
 
     /**
-     * Retirar um valor solicitado pelo usuário do_saldo atual.
+     * Retirar um valor solicitado pelo usuário do_balance atual.
      * @param {Number} valor 
      * @returns { Number } retorna valor desejado.
      */
-    sacar( valor ) {
+    withdraw( valor ) {
         
-        if ( valor > this.saldo && valor < 0 ) return;
-        this.saldo -= valor;
+        if ( valor > this.balance && valor < 0 ) return;
+        this.balance -= valor;
         return valor;
     }
 
-    transferir( value, conta ) {
-        const valueTransfer = this.sacar( value );
+    transfer( value, conta ) {
+        const valueTransfer = this.withdraw( value );
         if ( !valueTransfer ) return;
-        conta.depositar( valueTransfer );
+        conta.deposit( valueTransfer );
 
-        return this.saldo;
+        return this.balance;
     }
 }
 
@@ -66,12 +67,16 @@ const maria = new Client( 'Maria', '68795435' );
 
 const accountMaria = new Account( 38546, maria );
 const accountJosefina = new Account( 38456, josefina );
-accountMaria.saldo = 3000;
-accountMaria.transferir( 1000, accountJosefina );
+new Account( 38456, josefina );
+new Account( 38456, josefina );
+accountMaria.balance = 3000;
+accountMaria.transfer( 1000, accountJosefina );
 
-console.log( accountJosefina.saldo );
+console.log( accountJosefina.balance );
 
 
-accountMaria.transferir( 1033, accountJosefina );
-console.log( 'Resultado da tranferência: ' + accountJosefina.saldo );
-console.log( 'Resultado da tranferência: ' + accountMaria.saldo );
+accountMaria.transfer( 1033, accountJosefina );
+console.log( 'Resultado da tranferência: ' + accountJosefina.balance );
+console.log( 'Resultado da tranferência: ' + accountMaria.balance );
+console.log( 'Números de contas abertas: ' + Account.count );
+
