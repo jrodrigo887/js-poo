@@ -1,12 +1,11 @@
-import Client from './Client.js';
 
 export default class Account {
     static count = 0;
 
-    constructor( agencia, client ) {
+    constructor(agencia, client, balance ) {
         this._agencia = agencia;
         this._client = client;
-        this._balance = 0;
+        this._balance = balance;
         Account.count += 1;
     }
 
@@ -46,11 +45,16 @@ export default class Account {
      * @param {Number} valor 
      * @returns { Number } retorna valor desejado.
      */
-    withdraw( valor ) {
-        
-        if ( valor > this.balance && valor < 0 ) return;
-        this.balance -= valor;
-        return valor;
+    withdraw( value ) {
+        const tax = 1;
+        return this._withdraw(value, tax);
+    }
+
+    _withdraw(value, tax) {
+        let valueWithDraw = tax * value;
+        if (valueWithDraw > this.balance) return;
+        this.balance -= value;
+        return valueWithDraw;
     }
 
     transfer( value, conta ) {
@@ -62,21 +66,7 @@ export default class Account {
     }
 }
 
-const josefina = new Client( 'Josefina', '0645878542' );
-const maria = new Client( 'Maria', '68795435' );
-
-const accountMaria = new Account( 38546, maria );
-const accountJosefina = new Account( 38456, josefina );
-new Account( 38456, josefina );
-new Account( 38456, josefina );
-accountMaria.balance = 3000;
-accountMaria.transfer( 1000, accountJosefina );
-
-console.log( accountJosefina.balance );
 
 
-accountMaria.transfer( 1033, accountJosefina );
-console.log( 'Resultado da tranferência: ' + accountJosefina.balance );
-console.log( 'Resultado da tranferência: ' + accountMaria.balance );
-console.log( 'Números de contas abertas: ' + Account.count );
+
 

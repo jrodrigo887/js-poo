@@ -1,5 +1,7 @@
-import Client from './src/POO/Domain/Client';
+import Client from './src/POO/Domain/Client.js';
 
-const eu = new Client( 'JOse', '123654852' );
+const cliente = new Client('Jose', '132575645');
 
-console.log( eu );
+
+
+console.log(cliente.nome);
