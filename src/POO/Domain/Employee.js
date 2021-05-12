@@ -9,6 +9,9 @@ export default class Employee {
 
    }
 
+   verifyPassword( password ) {
+       return password === this._password;
+   }
    registerPassword( password ) {
        this._password = password;
    }
