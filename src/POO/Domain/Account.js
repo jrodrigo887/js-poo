@@ -1,13 +1,17 @@
+import Client from "./Client";
 
 export default class Account {
-    static count = 0;
 
-    constructor(agencia, client, balance ) {
+    constructor( agencia, client, balance ) {
         this._agencia = agencia;
         this._client = client;
         this._balance = balance;
-        Account.count += 1;
+        
+        if ( this.constructor === Account ) {
+            throw new Error( "Não é possível instanciar a classe Account, pois esta é uma classe abstrata." );
+        }
     }
+
 
     set client( client ) {
         if ( client instanceof Client ) {
@@ -45,14 +49,13 @@ export default class Account {
      * @param {Number} valor 
      * @returns { Number } retorna valor desejado.
      */
-    withdraw( value ) {
-        const tax = 1;
-        return this._withdraw(value, tax);
+    withdraw() {
+       throw new Error( "Não é possível chamar este método abastrato da classe pai." );
     }
 
-    _withdraw(value, tax) {
+    _withdraw( value, tax ) {
         let valueWithDraw = tax * value;
-        if (valueWithDraw > this.balance) return;
+        if ( valueWithDraw > this.balance ) return;
         this.balance -= value;
         return valueWithDraw;
     }
