@@ -1,7 +1,8 @@
 export default class Client {
-    constructor( nome, cpf ) {
+    constructor( nome, cpf, password ) {
         this._nome = nome;
         this._cpf = cpf;
+        this._password = password;
     }
 
     get cpf() {
@@ -11,5 +12,9 @@ export default class Client {
     get nome() {
         return this._nome;
     }
+
+    // verifyPassword( password ) {
+    //     return password === this._password;
+    // }
 
 }
